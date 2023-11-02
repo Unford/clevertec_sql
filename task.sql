@@ -29,17 +29,7 @@ WHERE ad.city IN (SELECT ad.city
                   HAVING COUNT(*) > 1);
 
 -- Найти ближайший вылетающий рейс из Екатеринбурга в Москву, на который еще не завершилась регистрация
-SELECT *
-from flights f
-         JOIN airports_data ad_dep on ad_dep.airport_code = f.departure_airport
-         JOIN airports_data ad_ar on ad_ar.airport_code = f.arrival_airport
-WHERE ad_dep.city::json ->> 'ru' = 'Москва'
-  and ad_ar.city::json ->> 'ru' = 'Екатеринбург'
-  and f.status IN ('On Time', 'Delayed', 'Scheduled')
-order by scheduled_departure
-limit 1;
-
-SELECT *
+SELECT f.*
 from flights f
          JOIN airports_data ad_dep on ad_dep.airport_code = f.departure_airport
          JOIN airports_data ad_ar on ad_ar.airport_code = f.arrival_airport
